@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="app_name">Wireless Charging Xposed</string>
+    <string name="pref_sound_off">Do not play the system notification when charging begins</string>
+    <string name="pref_sound_on">Play the system notification when charging begins</string>
+    <string name="pref_sound_title">System Notification Sound</string>
+    <string name="pref_vibrate_title">Vibration</string>
+    <string name="pref_vibrate_off">Do not vibrate when charging begins</string>
+    <string name="pref_vibrate_on">Vibrate when charging begins</string>
+
+</resources>
