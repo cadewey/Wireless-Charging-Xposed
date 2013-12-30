@@ -16,11 +16,11 @@ import android.preference.RingtonePreference;
 
 public class Settings extends PreferenceFragment implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener
 {
-	private Activity mActivity = null;
-	
-	@Override
+    private Activity mActivity = null;
+    
+    @Override
     public void onCreate(Bundle savedInstanceState) 
-	{
+    {
         super.onCreate(savedInstanceState);
         getPreferenceManager().setSharedPreferencesMode(1);
         addPreferencesFromResource(R.xml.settings);
@@ -31,22 +31,22 @@ public class Settings extends PreferenceFragment implements OnSharedPreferenceCh
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
         updateRingtoneSummary(p, prefs.getString(p.getKey(), null));
     }
-	
-	@Override
+    
+    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) 
-	{
+    {
         updateSummary(key);
     }
-	
-	@Override
-	public boolean onPreferenceChange(Preference preference, Object newValue)
-	{
-		updateRingtoneSummary((RingtonePreference)preference, (String)newValue);
-		return true;
-	}
-	
-	private void updateSummary(String key) 
-	{
+    
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue)
+    {
+        updateRingtoneSummary((RingtonePreference)preference, (String)newValue);
+        return true;
+    }
+    
+    private void updateSummary(String key) 
+    {
         if(findPreference(key) instanceof CheckBoxPreference) 
         {
             CheckBoxPreference p = (CheckBoxPreference)findPreference(key);
@@ -54,23 +54,23 @@ public class Settings extends PreferenceFragment implements OnSharedPreferenceCh
             p.setSummary(summary);
         }
     }
-	
-	private void updateRingtoneSummary(RingtonePreference pref, String newValue)
-	{
-		if (mActivity != null)
-    	{
-        	Ringtone ringtone = RingtoneManager.getRingtone(mActivity, Uri.parse(newValue));
-        	
-        	if (ringtone != null)
-        		pref.setSummary(ringtone.getTitle(mActivity));
-        	else
-        		pref.setSummary("None");
-    	}
-	}
-	
-	@Override
+    
+    private void updateRingtoneSummary(RingtonePreference pref, String newValue)
+    {
+        if (mActivity != null)
+        {
+            Ringtone ringtone = RingtoneManager.getRingtone(mActivity, Uri.parse(newValue));
+            
+            if (ringtone != null)
+                pref.setSummary(ringtone.getTitle(mActivity));
+            else
+                pref.setSummary("None");
+        }
+    }
+    
+    @Override
     public void onResume() 
-	{
+    {
         super.onResume();
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
@@ -85,7 +85,7 @@ public class Settings extends PreferenceFragment implements OnSharedPreferenceCh
     @Override
     public void onAttach(Activity activity)
     {
-    	super.onAttach(activity);
-    	mActivity = activity;
+        super.onAttach(activity);
+        mActivity = activity;
     }
 }
