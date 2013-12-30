@@ -12,10 +12,10 @@ things, depending on the user's settings (though not in this order):
 
  1. Returns without doing anything at all (complete silence)
  2. Performs 2 short vibrations in quick succession
- 3a. Invokes the original method, playing the default notification sound as normal OR
- 3b. Plays a custom-selected notification sound
+ 3. Invokes the original method, playing the default notification sound as normal OR
+ 4. Plays a custom-selected notification sound
  
-The exact behavior is left up to the user, and can be any combination of 1-3 above.
+The exact behavior is left up to the user, and can be any combination of 1,2 and 3 OR 4 above.
 
 ##Building the module
 
