@@ -1,0 +1,15 @@
+<resources>
+
+    <string name="app_name">Wireless Charging Xposed</string>
+    <string name="pref_sound_off">Не изпълнявай известие при започване на зареждане</string>
+    <string name="pref_sound_on">Изпълнявай известие при започване на зареждане</string>
+    <string name="pref_sound_title">Звук</string>
+    <string name="pref_vibrate_title">Вибрация</string>
+    <string name="pref_vibrate_off">Не вибрирай при стартиране на зареждане</string>
+    <string name="pref_vibrate_on">Вибрирай при стартиране на зареждане</string>
+    <string name="pref_custom_sound_title">Използвай потребителски Тон</string>
+    <string name="pref_custom_sound_off">Изпълни системния тон за зареждане</string>
+    <string name="pref_custom_sound_on">Изпълни потребителски тон</string>
+    <string name="pref_custom_ringtone_title">Тон за известяване</string>
+
+</resources>
