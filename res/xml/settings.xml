@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory
-        	android:title="Sound">
+        	android:title="@string/pref_category_sound">
         
 	    <CheckBoxPreference
 	            android:defaultValue="false"
@@ -31,7 +31,7 @@
     </PreferenceCategory>
     
     <PreferenceCategory
-    		android:title="Vibration">
+    		android:title="@string/pref_category_vibration">
 	    
 	    <CheckBoxPreference
 	            android:defaultValue="false"
@@ -40,6 +40,17 @@
 	            android:summaryOn="@string/pref_vibrate_on"
 	            android:title="@string/pref_vibrate_title" />
 
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="@string/pref_category_display">
+        
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_key_wake_on_charge"
+            android:summaryOff="@string/pref_wake_on_charge_off"
+            android:summaryOn="@string/pref_wake_on_charge_on"
+            android:title="@string/pref_wake_on_charge_title"/>
+        
     </PreferenceCategory>
     
 </PreferenceScreen>

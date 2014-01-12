@@ -8,6 +8,7 @@ import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.BatteryManager;
 import android.os.Vibrator;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -21,11 +22,32 @@ import java.lang.reflect.Method;
 public class WirelessChargingXposed implements IXposedHookLoadPackage
 {
     private final boolean DEBUG = false;
-    private XSharedPreferences mPrefs = new XSharedPreferences("com.eldarerathis.xposedmodule.wirelesschargingxposed");
+    private static XSharedPreferences mPrefs;
     
     @Override
     public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable 
     {
+		mPrefs = new XSharedPreferences(this.getClass().getPackage().getName());
+		
+		findAndHookMethod("com.android.server.power.PowerManagerService",
+    			lpparam.classLoader, "shouldWakeUpWhenPluggedOrUnpluggedLocked",
+    			boolean.class, int.class, boolean.class,
+    			new XC_MethodReplacement()
+		    	{
+					@Override
+					protected Object replaceHookedMethod(MethodHookParam param) throws Throwable 
+					{
+						mPrefs.reload();
+						
+						int plugType = (Integer)getObjectField(param.thisObject, "mPlugType");
+						
+						if (!mPrefs.getBoolean("pref_key_wake_on_charge", true) && plugType == BatteryManager.BATTERY_PLUGGED_WIRELESS)
+							return false;
+						
+						return XposedBridge.invokeOriginalMethod(param.method, param.thisObject, param.args);
+					}
+		    	});
+    	
         findAndHookMethod("com.android.server.power.Notifier",
                 lpparam.classLoader, "playWirelessChargingStartedSound",
                 new XC_MethodReplacement()
@@ -34,6 +56,7 @@ public class WirelessChargingXposed implements IXposedHookLoadPackage
                     protected Object replaceHookedMethod(MethodHookParam param) throws Throwable 
                     {
                         mPrefs.reload();
+                        
                         Context ctxt = (Context)getObjectField(param.thisObject, "mContext");
                         
                         LogD("Hooking playWirelessChargingStartedSound()");

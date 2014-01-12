@@ -7,9 +7,10 @@ import android.preference.PreferenceManager;
 public class SettingsActivity extends Activity 
 {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) 
+    {
         super.onCreate(savedInstanceState);
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new Settings()).commit();
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new Settings()).commit();
     }
 }

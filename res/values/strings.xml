@@ -1,6 +1,9 @@
 <resources>
 
     <string name="app_name">Wireless Charging Xposed</string>
+    <string name="pref_category_sound">Sound</string>
+    <string name="pref_category_vibration">Vibration</string>
+    <string name="pref_category_display">Display</string>
     <string name="pref_sound_off">Do not play a notification when charging begins</string>
     <string name="pref_sound_on">Play a notification when charging begins</string>
     <string name="pref_sound_title">Sound</string>
@@ -11,5 +14,8 @@
     <string name="pref_custom_sound_off">Play the system\'s default wireless charging sound</string>
     <string name="pref_custom_sound_on">Play a custom notification sound</string>
     <string name="pref_custom_ringtone_title">Notification Sound</string>
+    <string name="pref_wake_on_charge_title">Wake on Charge</string>
+    <string name="pref_wake_on_charge_on">Wake the display when charging begins</string>
+    <string name="pref_wake_on_charge_off">Do not wake the display when charging begins</string>
 
 </resources>

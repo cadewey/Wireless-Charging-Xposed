@@ -1,6 +1,7 @@
 package com.eldarerathis.xposedmodule.wirelesschargingxposed;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.media.Ringtone;
@@ -18,11 +19,12 @@ public class Settings extends PreferenceFragment implements OnSharedPreferenceCh
 {
     private Activity mActivity = null;
     
+    @SuppressWarnings("deprecation")
     @Override
     public void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
-        getPreferenceManager().setSharedPreferencesMode(1);
+        getPreferenceManager().setSharedPreferencesMode(Context.MODE_WORLD_READABLE);
         addPreferencesFromResource(R.xml.settings);
         
         RingtonePreference p = (RingtonePreference)findPreference("pref_key_custom_ringtone");
