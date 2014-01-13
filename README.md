@@ -7,15 +7,15 @@ aims to add a bit more flexibility in how your phone notifies you when you begin
 ##How it works
 
 The commit to AOSP that added the notification sound can be found [here](https://android.googlesource.com/platform/frameworks/base/+/84e2756c0f3794c6efe5568a9d09101ba689fb39%5E!/). Essentially,
-this module hooks into the `playWirelessChargingStartedSound()` method and does one (or more) of several 
-things, depending on the user's settings (though not in this order):
+this module hooks into the `playWirelessChargingStartedSound()` and `shouldWakeUpWhenPluggedOrUnpluggedLocked()` methods, then performs actions based on the user's preferences, including:
 
  1. Returns without doing anything at all (complete silence)
  2. Performs 2 short vibrations in quick succession
  3. Invokes the original method, playing the default notification sound as normal OR
  4. Plays a custom-selected notification sound
+ 5. Wakes the display when wireless charging begins or ends
  
-The exact behavior is left up to the user, and can be any combination of 1,2 and 3 OR 4 above.
+The exact behavior is left up to the user, and can be any combination of the above (3 and 4 are mutually exclusive).
 
 ##Building the module
 
@@ -39,7 +39,7 @@ Binaries will not be hosted on GitHub, but can be obtained from other locations 
 
  1. The associated [XDA thread](http://forum.xda-developers.com/showthread.php?t=2587431)
  2. The [Xposed Module Repository](http://repo.xposed.info/module/com.eldarerathis.xposedmodule.wirelesschargingxposed) (also accessible via the Xposed Installer on your device)
- 3. [Google Play](https://play.google.com/store/apps/details?id=com.eldarerathis.xposedmodule.wirelesschargingxposed) - this version is $0.99 USD (a "donate" version). It **does not** have advertising.
+ 3. [Google Play](https://play.google.com/store/apps/details?id=com.eldarerathis.xposedmodule.wirelesschargingxposed) - this version is $0.99 USD (a "donate" version). The free releases **do not** have advertising, so payment is not required for full functionality.
  
 ##License
 
