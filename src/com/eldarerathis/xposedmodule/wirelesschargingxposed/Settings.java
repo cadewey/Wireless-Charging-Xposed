@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -68,14 +71,24 @@ public class Settings extends PreferenceFragment implements OnSharedPreferenceCh
     	}
     	else if (uri.getScheme().equals("content"))
     	{
-    		String[] projection = { MediaStore.Audio.Media.TITLE  };
-    		Cursor c = mActivity.getContentResolver().query(uri, projection, null, null, null);
-    		
-    		if (c != null && c.getCount() > 0)
+    		try
     		{
-    			int columnIndex = c.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
-    			c.moveToFirst();
-    			ringtoneName = c.getString(columnIndex);
+	    		String[] projection = { MediaStore.Audio.Media.TITLE  };
+	    		Cursor c = mActivity.getContentResolver().query(uri, projection, null, null, null);
+	    		
+	    		if (c != null && c.getCount() > 0)
+	    		{
+	    			int columnIndex = c.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
+	    			c.moveToFirst();
+	    			ringtoneName = c.getString(columnIndex);
+	    		}
+    		}
+    		catch (SQLiteException ex)
+    		{
+    			Ringtone ringtone = RingtoneManager.getRingtone(mActivity, Uri.parse(newValue));
+    			             
+    			 if (ringtone != null)
+    				 ringtoneName = ringtone.getTitle(mActivity);
     		}
     	}
     	
