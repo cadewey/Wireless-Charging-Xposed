@@ -4,8 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -14,6 +13,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.provider.MediaStore;
 
 public class Settings extends PreferenceFragment implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener
 {
@@ -59,15 +59,28 @@ public class Settings extends PreferenceFragment implements OnSharedPreferenceCh
     
     private void updateRingtoneSummary(RingtonePreference pref, String newValue)
     {
-        if (mActivity != null)
-        {
-            Ringtone ringtone = RingtoneManager.getRingtone(mActivity, Uri.parse(newValue));
-            
-            if (ringtone != null)
-                pref.setSummary(ringtone.getTitle(mActivity));
-            else
-                pref.setSummary("None");
-        }
+    	String ringtoneName = "None";
+    	Uri uri = Uri.parse(newValue);
+    	
+    	if (uri.getScheme().equals("file"))
+    	{
+    		ringtoneName = uri.getLastPathSegment();
+    	}
+    	else if (uri.getScheme().equals("content"))
+    	{
+    		String[] projection = { MediaStore.Audio.Media.TITLE  };
+    		Cursor c = mActivity.getContentResolver().query(uri, projection, null, null, null);
+    		
+    		if (c != null && c.getCount() > 0)
+    		{
+    			int columnIndex = c.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
+    			c.moveToFirst();
+    			ringtoneName = c.getString(columnIndex);
+    		}
+    	}
+    	
+    	pref.setSummary(ringtoneName);
+
     }
     
     @Override

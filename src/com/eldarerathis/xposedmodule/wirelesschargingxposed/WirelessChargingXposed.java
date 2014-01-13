@@ -40,9 +40,22 @@ public class WirelessChargingXposed implements IXposedHookLoadPackage
 						mPrefs.reload();
 						
 						int plugType = (Integer)getObjectField(param.thisObject, "mPlugType");
+						int oldPlugType = (Integer)param.args[1];
+						boolean isPowered = (Boolean)getObjectField(param.thisObject, "mIsPowered");
+						boolean wasPowered = (Boolean)param.args[0];
+						boolean dockedOnWirelessCharger = (Boolean)param.args[2];
 						
-						if (!mPrefs.getBoolean("pref_key_wake_on_charge", true) && plugType == BatteryManager.BATTERY_PLUGGED_WIRELESS)
-							return false;
+						if (plugType == BatteryManager.BATTERY_PLUGGED_WIRELESS)
+						{
+							if (!wasPowered && isPowered && dockedOnWirelessCharger)
+								return mPrefs.getBoolean("pref_key_wake_on_charge", true);
+						}
+						
+						if (oldPlugType == BatteryManager.BATTERY_PLUGGED_WIRELESS)
+						{
+							if (wasPowered && !isPowered)
+								return mPrefs.getBoolean("pref_key_wake_on_undock", false);
+						}
 						
 						return XposedBridge.invokeOriginalMethod(param.method, param.thisObject, param.args);
 					}

@@ -17,5 +17,7 @@
     <string name="pref_wake_on_charge_title">Wake on Charge</string>
     <string name="pref_wake_on_charge_on">Wake the display when charging begins</string>
     <string name="pref_wake_on_charge_off">Do not wake the display when charging begins</string>
-
+    <string name="pref_wake_on_undock_title">Wake on Undock</string>
+    <string name="pref_wake_on_undock_on">Wake the display when device is removed from a wireless charger</string>
+    <string name="pref_wake_on_undock_off">Do not wake the display when device is removed from a wireless charger</string>
 </resources>
