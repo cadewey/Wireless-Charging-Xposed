@@ -7,9 +7,9 @@
 	    <CheckBoxPreference
 	            android:defaultValue="false"
 	            android:key="pref_key_sound"
-	            android:summaryOff="@string/pref_sound_off"
-	            android:summaryOn="@string/pref_sound_on"
-	            android:title="@string/pref_sound_title" />
+	            android:summaryOff="@string/pref_sound_on_charge_off"
+	            android:summaryOn="@string/pref_sound_on_charge_on"
+	            android:title="@string/pref_sound_on_charge_title" />
 	    
 	    <CheckBoxPreference
 		        android:defaultValue="false"
@@ -25,8 +25,24 @@
 		        android:showDefault="true"
 		        android:showSilent="false"
 		        android:key="pref_key_custom_ringtone"
-		        android:title="@string/pref_custom_ringtone_title" 
+		        android:title="@string/pref_custom_ringtone_charge_title"
 		        android:dependency="pref_key_custom_sound"/>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_key_undock_sound"
+            android:summaryOff="@string/pref_sound_on_undock_off"
+            android:summaryOn="@string/pref_sound_on_undock_on"
+            android:title="@string/pref_sound_on_undock_title" />
+
+        <RingtonePreference
+            android:defaultValue="content://settings/system/notification_sound"
+            android:ringtoneType="notification"
+            android:showDefault="true"
+            android:showSilent="false"
+            android:key="pref_key_custom_undock_ringtone"
+            android:title="@string/pref_custom_ringtone_undock_title"
+            android:dependency="pref_key_undock_sound"/>
     
     </PreferenceCategory>
     
