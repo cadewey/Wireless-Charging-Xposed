@@ -29,11 +29,15 @@ public class Settings extends PreferenceFragment implements OnSharedPreferenceCh
         super.onCreate(savedInstanceState);
         getPreferenceManager().setSharedPreferencesMode(Context.MODE_WORLD_READABLE);
         addPreferencesFromResource(R.xml.settings);
-        
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
+
         RingtonePreference p = (RingtonePreference)findPreference("pref_key_custom_ringtone");
         p.setOnPreferenceChangeListener(this);
-        
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        updateRingtoneSummary(p, prefs.getString(p.getKey(), null));
+
+        p = (RingtonePreference)findPreference("pref_key_custom_undock_ringtone");
+        p.setOnPreferenceChangeListener(this);
         updateRingtoneSummary(p, prefs.getString(p.getKey(), null));
     }
     

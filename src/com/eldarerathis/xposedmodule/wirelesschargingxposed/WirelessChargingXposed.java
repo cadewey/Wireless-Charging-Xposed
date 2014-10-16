@@ -10,6 +10,8 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Vibrator;
+import android.text.TextUtils;
+
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
@@ -53,8 +55,14 @@ public class WirelessChargingXposed implements IXposedHookLoadPackage
 						
 						if (oldPlugType == BatteryManager.BATTERY_PLUGGED_WIRELESS)
 						{
-							if (wasPowered && !isPowered)
-								return mPrefs.getBoolean("pref_key_wake_on_undock", false);
+							if (wasPowered && !isPowered) {
+                                if (mPrefs.getBoolean("pref_key_undock_sound", false)) {
+                                    Context ctxt = (Context)getObjectField(param.thisObject, "mContext");
+                                    String soundPath = mPrefs.getString("pref_key_custom_undock_ringtone", null);
+                                    playNotificationSound(ctxt, soundPath);
+                                }
+                                return mPrefs.getBoolean("pref_key_wake_on_undock", false);
+                            }
 						}
 						
 						return XposedBridge.invokeOriginalMethod(param.method, param.thisObject, param.args);
@@ -79,7 +87,7 @@ public class WirelessChargingXposed implements IXposedHookLoadPackage
                             LogD("Charging started - playing notification sound");
                         
                             if (mPrefs.getBoolean("pref_key_custom_sound", false))
-                                playNotificationSound(ctxt);
+                                playNotificationSound(ctxt, mPrefs.getString("pref_key_custom_ringtone", null));
                             else
                                 XposedBridge.invokeOriginalMethod(param.method, param.thisObject, null);
                         }
@@ -102,11 +110,9 @@ public class WirelessChargingXposed implements IXposedHookLoadPackage
         );
     }
     
-    private void playNotificationSound(Context ctxt)
+    private void playNotificationSound(Context ctxt, final String soundPath)
     {
-        final String soundPath = mPrefs.getString("pref_key_custom_ringtone", null);
-        
-        if (soundPath != null && !soundPath.equals("")) 
+        if (!TextUtils.isEmpty(soundPath))
         {
             final Uri soundUri = Uri.parse(soundPath);
             if (soundUri != null) 
